@@ -85,7 +85,6 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiPropertyOptional)({
         description: 'Organization ID (defaults to user organization if not provided)',
-        example: '550e8400-e29b-41d4-a716-446655440000',
         format: 'uuid',
     }),
     (0, class_validator_1.IsUUID)(),

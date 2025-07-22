@@ -51,8 +51,48 @@ __decorate([
     (0, common_1.Post)(),
     (0, rbac_decorator_1.RequirePermission)('create', 'patient_record'),
     (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
-    (0, swagger_1.ApiOperation)({ summary: 'Create a new patient record' }),
-    (0, swagger_1.ApiResponse)({ status: 201, description: 'Patient record created successfully' }),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Create a new patient record',
+        description: 'Creates a new patient record with the provided information. If organizationId is not provided, uses the user\'s organization.'
+    }),
+    (0, swagger_1.ApiBody)({
+        type: create_patient_record_dto_1.CreatePatientRecordDto,
+        description: 'Patient record data',
+        examples: {
+            example1: {
+                summary: 'Basic patient record',
+                value: {
+                    patientId: 'VET001234',
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    dateOfBirth: '1980-05-15',
+                    medicalHistory: 'Veteran with PTSD and knee injury from deployment',
+                    currentTreatment: 'Physical therapy and counseling sessions'
+                }
+            }
+        }
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 201,
+        description: 'Patient record created successfully',
+        schema: {
+            example: {
+                id: '550e8400-e29b-41d4-a716-446655440000',
+                patientId: 'VET001234',
+                firstName: 'John',
+                lastName: 'Doe',
+                dateOfBirth: '1980-05-15',
+                medicalHistory: 'Veteran with PTSD and knee injury from deployment',
+                currentTreatment: 'Physical therapy and counseling sessions',
+                status: 'active',
+                organizationId: 'org-uuid-123',
+                createdById: 'user-uuid-456',
+                createdAt: '2025-07-21T10:30:00Z',
+                updatedAt: '2025-07-21T10:30:00Z'
+            }
+        }
+    }),
+    (0, swagger_1.ApiResponse)({ status: 400, description: 'Invalid input data' }),
     (0, swagger_1.ApiResponse)({ status: 403, description: 'Insufficient permissions' }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, current_user_decorator_1.CurrentUser)()),
@@ -63,8 +103,33 @@ __decorate([
 __decorate([
     (0, common_1.Get)(),
     (0, rbac_decorator_1.RequirePermission)('read', 'patient_record'),
-    (0, swagger_1.ApiOperation)({ summary: 'Get all patient records' }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'Patient records retrieved successfully' }),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Get all patient records',
+        description: 'Retrieves all patient records accessible to the current user based on their role and organization'
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'organizationId',
+        required: false,
+        description: 'Filter by specific organization (optional)',
+        type: String
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Patient records retrieved successfully',
+        schema: {
+            type: 'array',
+            example: [
+                {
+                    id: '550e8400-e29b-41d4-a716-446655440000',
+                    patientId: 'VET001234',
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    status: 'active',
+                    organizationId: 'org-uuid-123'
+                }
+            ]
+        }
+    }),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __param(1, (0, common_1.Query)('organizationId')),
     __metadata("design:type", Function),
@@ -75,7 +140,27 @@ __decorate([
     (0, common_1.Get)(':id'),
     (0, rbac_decorator_1.RequirePermission)('read', 'patient_record'),
     (0, swagger_1.ApiOperation)({ summary: 'Get a specific patient record' }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'Patient record retrieved successfully' }),
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+        description: 'Patient record UUID',
+        type: String
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Patient record retrieved successfully',
+        schema: {
+            example: {
+                id: '550e8400-e29b-41d4-a716-446655440000',
+                patientId: 'VET001234',
+                firstName: 'John',
+                lastName: 'Doe',
+                dateOfBirth: '1980-05-15',
+                medicalHistory: 'Veteran with PTSD and knee injury from deployment',
+                currentTreatment: 'Physical therapy and counseling sessions',
+                status: 'active'
+            }
+        }
+    }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'Patient record not found' }),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, current_user_decorator_1.CurrentUser)()),
@@ -87,8 +172,18 @@ __decorate([
     (0, common_1.Patch)(':id'),
     (0, rbac_decorator_1.RequirePermission)('update', 'patient_record'),
     (0, swagger_1.ApiOperation)({ summary: 'Update a patient record' }),
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+        description: 'Patient record UUID',
+        type: String
+    }),
+    (0, swagger_1.ApiBody)({
+        type: update_patient_record_dto_1.UpdatePatientRecordDto,
+        description: 'Updated patient record data'
+    }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Patient record updated successfully' }),
     (0, swagger_1.ApiResponse)({ status: 403, description: 'Insufficient permissions' }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Patient record not found' }),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, current_user_decorator_1.CurrentUser)()),
@@ -101,8 +196,14 @@ __decorate([
     (0, rbac_decorator_1.RequirePermission)('delete', 'patient_record'),
     (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),
     (0, swagger_1.ApiOperation)({ summary: 'Delete a patient record' }),
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+        description: 'Patient record UUID',
+        type: String
+    }),
     (0, swagger_1.ApiResponse)({ status: 204, description: 'Patient record deleted successfully' }),
     (0, swagger_1.ApiResponse)({ status: 403, description: 'Insufficient permissions' }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Patient record not found' }),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, current_user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
