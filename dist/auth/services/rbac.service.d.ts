@@ -1,0 +1,34 @@
+import { Repository } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { UserRole } from '../../users/entities/user-role.entity';
+import { Role } from '../../permissions/entities/role.entity';
+import { Permission } from '../../permissions/entities/permission.entity';
+import { Organization } from '../../organizations/entities/organization.entity';
+import { PatientRecord } from '../../resources/entities/patient-record.entity';
+import { AuditService } from '../../audit/services/audit.service';
+import { AccessContext, AccessResult } from '../../common/interfaces/rbac.interface';
+export declare class RbacService {
+    private userRepository;
+    private userRoleRepository;
+    private roleRepository;
+    private permissionRepository;
+    private organizationRepository;
+    private patientRecordRepository;
+    private auditService;
+    private readonly logger;
+    private readonly rolePermissions;
+    constructor(userRepository: Repository<User>, userRoleRepository: Repository<UserRole>, roleRepository: Repository<Role>, permissionRepository: Repository<Permission>, organizationRepository: Repository<Organization>, patientRecordRepository: Repository<PatientRecord>, auditService: AuditService);
+    hasAccess(context: AccessContext): Promise<AccessResult>;
+    private getUserWithRoles;
+    getUserPermissions(userId: string, organizationId?: string): Promise<string[]>;
+    private hasOrganizationalAccess;
+    private getRolePermissions;
+    private checkPermission;
+    private checkResourceAccess;
+    private checkPatientRecordAccess;
+    private getUserOrganizations;
+    private checkOrganizationalAccess;
+    filterPatientRecords(userId: string, organizationId?: string): Promise<PatientRecord[]>;
+    hasAnyRole(userId: string): Promise<boolean>;
+    getUserRoles(userId: string): Promise<string[]>;
+}

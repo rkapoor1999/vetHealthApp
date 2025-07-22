@@ -1,0 +1,30 @@
+import { OnModuleInit } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { Repository } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { UserRole } from '../../users/entities/user-role.entity';
+import { Role } from '../../permissions/entities/role.entity';
+import { Organization } from '../../organizations/entities/organization.entity';
+import { AuditService } from '../../audit/services/audit.service';
+import { LoginDto, RegisterDto, AuthResult } from '../dto/auth.dto';
+export declare class AuthService implements OnModuleInit {
+    private userRepository;
+    private userRoleRepository;
+    private roleRepository;
+    private organizationRepository;
+    private jwtService;
+    private auditService;
+    private readonly logger;
+    private defaultOrganizationId;
+    constructor(userRepository: Repository<User>, userRoleRepository: Repository<UserRole>, roleRepository: Repository<Role>, organizationRepository: Repository<Organization>, jwtService: JwtService, auditService: AuditService);
+    onModuleInit(): Promise<void>;
+    private ensureDefaultOrganization;
+    private ensureDefaultRoles;
+    register(registerDto: RegisterDto): Promise<AuthResult>;
+    private assignDefaultRole;
+    private isAdminEmail;
+    private getDefaultOrganizationId;
+    login(loginDto: LoginDto): Promise<AuthResult>;
+    logout(userId: string): Promise<void>;
+    validateUser(userId: string): Promise<User | null>;
+}
