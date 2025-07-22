@@ -58,7 +58,6 @@ export class CreatePatientRecordDto {
 
   @ApiPropertyOptional({
     description: 'Organization ID (defaults to user organization if not provided)',
-    example: '550e8400-e29b-41d4-a716-446655440000',
     format: 'uuid',
   })
   @IsUUID()
