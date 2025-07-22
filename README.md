@@ -9,16 +9,17 @@
 
 ## 📋 Table of Contents
 
-- [Overview](##overview)
-- [Features](##features)
-- [Quick Start](##quick-start)
-- [Architecture](##architecture)
-- [API Documentation](##api-documentation)
-- [Database Schema](##database-schema)
-- [RBAC Implementation](##rbac-implementation)
-- [Testing](##testing)
-- [Security](##security)
-- [Future Considerations](##future-considerations)
+- [Overview](#overview)
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Quick Demo](#quick-demo)
+- [Architecture](#architecture)
+- [API Documentation](#api-documentation)
+- [Database Schema](#database-schema)
+- [RBAC Implementation](#rbac-implementation)
+- [Testing](#testing)
+- [Security](#security)
+- [Future Considerations](#future-considerations)
 
 ---
 
@@ -132,6 +133,35 @@ FRONTEND_URL=http://localhost:3000
 - API: http://localhost:3000
 - Health Check: http://localhost:3000/health
 - API Documentation: http://localhost:3000/api/docs
+
+## 🎬 Quick Demo
+### Sample API workflow
+1. Register as Owner (first user automatically gets OWNER role):
+```bash
+curl -X POST http://localhost:3000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"owner@va.gov","password":"SecurePass123!","firstName":"Jane","lastName":"Doe"}'
+```
+2. Login and get JWT Token
+```bash
+curl -X POST http://localhost:3000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"owner@va.gov","password":"SecurePass123!"}'
+```
+3. Authorise at the top right at swagger API with the access code
+4. Create a patient record:
+```bash
+curl -X POST http://localhost:3000/api/patient-records \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"patientId":"VET001","firstName":"John","lastName":"Smith","dateOfBirth":"1980-05-15"}'
+```
+5. View all patient records:
+```bash
+curl -X GET http://localhost:3000/api/patient-records \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
 
 ## 🏗 Architecture
 ### System Design 
