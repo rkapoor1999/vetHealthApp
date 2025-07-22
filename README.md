@@ -291,8 +291,7 @@ Content-Type: application/json
   "lastName": "Johnson",
   "dateOfBirth": "1970-01-01",
   "medicalHistory": "Hypertension, Diabetes",
-  "currentTreatment": "Medication management",
-  "organizationId": "dept-uuid"
+  "currentTreatment": "Medication management"
 }
 ```
 #### Get Patint Records
