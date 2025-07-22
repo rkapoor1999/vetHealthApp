@@ -161,6 +161,23 @@ curl -X POST http://localhost:3000/api/patient-records \
 curl -X GET http://localhost:3000/api/patient-records \
   -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
+6. Delete a patient record:
+```bash
+curl -X 'DELETE' \
+  'http://localhost:3000/api/patient-records/{patient-id}' \
+  -H 'accept: */*' \
+  -H 'Authorization: YOUR_JWT_TOKEN'
+```
+
+### Role-Based Access Demo
+- Owner: Can create, read, update, and delete any resource
+- Admin: Can manage patient records but cannot delete
+- Viewer: Can only read patient records
+
+Try creating additional users with different email patterns:
+
+admin@va.gov → Gets ADMIN role
+viewer@va.gov → Gets VIEWER role
 
 
 ## 🏗 Architecture
