@@ -176,7 +176,7 @@ curl -X 'DELETE' \
 
 Try creating additional users with different email patterns:
 
-admin@va.gov → Gets ADMIN role
+admin@va.gov → Gets ADMIN role \\
 viewer@va.gov → Gets VIEWER role
 
 
